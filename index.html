@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>37号避难所 · Bunker Console v2.4.0 使用指南</title>
+<title>37号避难所 · Bunker Console v2.4.1 使用指南</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -156,7 +156,7 @@
     <span class="badge">头顶倒计时</span>
     <span class="badge">多维度传送门</span>
   </div>
-  <div class="version-tag">v2.4.0</div>
+  <div class="version-tag">v2.4.1</div>
 </div>
 
 <h2>📦 安装步骤</h2>
@@ -165,7 +165,7 @@
   <span class="step-num">1</span>确认你装了 <b>Fabric Loader 0.19.5+</b>（1.20.1）
 </div>
 <div class="step">
-  <span class="step-num">2</span>把 <code>bunkerconsole-2.4.0.jar</code> 放进 <code>.minecraft/mods/</code> 文件夹
+  <span class="step-num">2</span>把 <code>bunkerconsole-2.4.1.jar</code> 放进 <code>.minecraft/mods/</code> 文件夹
 </div>
 <div class="step">
   <span class="step-num">3</span>还要放一个 <b>Fabric API</b>（<code>fabric-api-0.92.12+1.20.1.jar</code>），没有这个 mod 跑不起来
@@ -182,7 +182,8 @@
   <tr><td>拿光源方块</td><td><code>/give @s bunkerconsole:glow_block</code></td></tr>
   <tr><td>拿传送门方块</td><td><code>/give @s bunkerconsole:portal_block</code></td></tr>
   <tr><td>绑定两扇传送门</td><td>手持魔杖 → 右键第一扇门 → 再右键目标维度的第二扇门</td></tr>
-  <tr><td>跨维度传送</td><td>右键已绑定的传送门方块</td></tr>
+  <tr><td>跨维度传送</td><td>走进已绑定的传送门方块（自动传送，带短暂防横跳冷却）</td></tr>
+  <tr><td>查看关卡与绑定</td><td><code>/bunker levels</code></td></tr>
   <tr><td>打开控制台</td><td>按 <kbd>K</kbd> 键</td></tr>
   <tr><td>配置展示框</td><td>手持魔杖 → 右键展示框 → 输入物品 ID</td></tr>
   <tr><td>设土豆箱</td><td>手持魔杖 → 右键箱子方块</td></tr>
@@ -302,18 +303,18 @@ minecraft:diamond</code></pre>
 <h2>🌀 多维度传送门</h2>
 
 <div class="new">
-  ✨ <b>新功能 v2.4.0</b> — 每关可对应一个独立维度，传送门方块用魔杖双向绑定，右键跨维度传送。
+  ✨ <b>v2.4.1</b> — 走进传送门自动跨维传送（带防横跳冷却）；预留两个静态关卡维度；<code>/bunker levels</code> 查看关卡与绑定。
 </div>
 
-<h3>新增维度</h3>
-<p>mod 内置一个静态关卡维度 <code>bunkerconsole:level2</code>，世界预设与主世界相同（overworld 地形/生物群系预设）。该维度为静态关卡，<b>不参与每日重置循环</b>；第一关主世界沿用原有重置逻辑。</p>
+<h3>预留关卡维度</h3>
+<p>mod 内置两个预留静态关卡维度 <code>bunkerconsole:level2</code>、<code>bunkerconsole:level3</code>，世界预设与主世界相同（overworld 地形/生物群系预设）。这些维度为静态关卡，<b>不参与每日重置循环</b>；第一关主世界 <code>minecraft:overworld</code> 沿用原有重置逻辑。传送门可绑定到任意一个预留关卡。</p>
 
 <h3>放置与绑定传送门</h3>
 <div class="step">
   <span class="step-num">1</span>拿传送门方块：<code>/give @s bunkerconsole:portal_block</code>，在主世界放一扇门
 </div>
 <div class="step">
-  <span class="step-num">2</span>到目标维度（level2）再放一扇门
+  <span class="step-num">2</span>到目标预留关卡（level2 / level3）再放一扇门
 </div>
 <div class="step">
   <span class="step-num">3</span>手持配置魔杖，右键<b>第一扇门</b>，聊天栏提示「传送门 A 已记录」
@@ -322,15 +323,19 @@ minecraft:diamond</code></pre>
   <span class="step-num">4</span>再右键<b>目标维度的第二扇门</b>，提示「传送门已双向绑定」，两扇门建立配对
 </div>
 <div class="step">
-  <span class="step-num">5</span>之后右键任意一扇已绑定的门，即可传送到配对门所在维度与坐标
+  <span class="step-num">5</span>之后<b>走进</b>任意一扇已绑定的门，即自动传送到配对门所在维度与坐标（1.5 秒冷却，防止来回横跳）
 </div>
 
 <div class="tip">
-  💡 绑定关系自动写入配置文件 <code>portalLinks</code>，重启世界后保留。
+  💡 绑定关系自动写入配置文件 <code>portalLinks</code>，重启世界后保留。输入 <code>/bunker levels</code> 可查看全部预留关卡维度与当前传送门绑定列表。
 </div>
 
 <div class="warn">
-  <b>关于门后透视：</b>传送门是半透明实体方块，可以看穿到本侧背景。纯服务端 mod 无法把另一维度的实时画面渲染到门后；真正的沉浸式跨维透视（隔门看到对面世界）需要独立客户端渲染管线（如 Immersive Portals 级方案），本版本暂不提供。
+  <b>当前版本限制（纯自研，未挂前置渲染 mod）：</b><br>
+  ① 门后<b>看不到另一维度的实时画面</b>，半透明门只能看穿到本侧背景；<br>
+  ② 跨维传送仍会走原版维度切换，做不到完全无加载屏的无感穿越；<br>
+  ③ 关卡维度为数据包预定义预留，不能在游戏内凭空新建世界。<br>
+  要实现「隔门看到对面视角 + 走进完全无感 + 运行时动态建关卡」，需要接入 <b>Immersive Portals</b> 前置 mod（客户端+服务端均需安装），该集成待确认后再做。
 </div>
 
 <h2>⏱️ 头顶倒计时</h2>
@@ -446,7 +451,7 @@ minecraft:diamond</code></pre>
   <div class="feature-card">
     <div class="icon">🌀</div>
     <h4>多维度传送门</h4>
-    <p>独立关卡维度，魔杖双向绑定两扇门，右键跨维度传送，绑定关系持久化</p>
+    <p>预留静态关卡维度，魔杖双向绑定两扇门，走进门自动跨维传送，绑定关系持久化</p>
   </div>
 </div>
 
