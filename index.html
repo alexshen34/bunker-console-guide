@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>37号避难所 · Bunker Console v2.3.2 使用指南</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    line-height: 1.7;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero {
+    background: linear-gradient(135deg, #1f6feb 0%, #1a3a6e 100%);
+    border-radius: 12px;
+    padding: 40px 30px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .hero h1 { color: #fff; font-size: 28px; margin-bottom: 8px; }
+  .hero p { color: #a5d6ff; font-size: 14px; }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin: 4px;
+  }
+  .version-tag {
+    display: inline-block;
+    background: #f0b72f;
+    color: #000;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  h2 {
+    color: #58a6ff;
+    font-size: 20px;
+    margin: 30px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #21262d;
+  }
+  h3 { color: #f0b72f; font-size: 16px; margin: 20px 0 10px; }
+  .step {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .step-num {
+    display: inline-block;
+    background: #1f6feb;
+    color: #fff;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-size: 13px;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  code {
+    background: #1f2428;
+    color: #7ee787;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: "Cascadia Code", Consolas, monospace;
+    font-size: 13px;
+  }
+  pre {
+    background: #1f2428;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 14px;
+    overflow-x: auto;
+    margin: 10px 0;
+  }
+  pre code { background: none; padding: 0; color: #7ee787; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #21262d; }
+  th { color: #58a6ff; font-weight: 600; }
+  td { font-size: 14px; }
+  .tip {
+    background: #1c2128;
+    border-left: 3px solid #f0b72f;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .warn {
+    background: #2d1b1b;
+    border-left: 3px solid #f85149;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .new {
+    background: #1a3a2a;
+    border-left: 3px solid #3fb950;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+    margin: 15px 0;
+  }
+  .feature-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .feature-card .icon { font-size: 24px; margin-bottom: 8px; }
+  .feature-card h4 { color: #e6edf3; font-size: 15px; margin-bottom: 6px; }
+  .feature-card p { color: #8b949e; font-size: 13px; }
+  kbd {
+    background: #2d333b;
+    border: 1px solid #444c56;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #e6edf3;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🏛️ 37号避难所 · Bunker Console</h1>
+  <p>Minecraft 1.20.1 Fabric 循环地图控制台 Mod</p>
+  <div style="margin-top:12px">
+    <span class="badge">Fabric 1.20.1</span>
+    <span class="badge">每日重置循环</span>
+    <span class="badge">魔杖选区</span>
+    <span class="badge">展示框检测</span>
+    <span class="badge">土豆箱储物</span>
+    <span class="badge">发射器自动装填</span>
+    <span class="badge">头顶倒计时</span>
+  </div>
+  <div class="version-tag">v2.3.2</div>
+</div>
+
+<h2>📦 安装步骤</h2>
+
+<div class="step">
+  <span class="step-num">1</span>确认你装了 <b>Fabric Loader 0.19.5+</b>（1.20.1）
+</div>
+<div class="step">
+  <span class="step-num">2</span>把 <code>bunkerconsole-2.3.2.jar</code> 放进 <code>.minecraft/mods/</code> 文件夹
+</div>
+<div class="step">
+  <span class="step-num">3</span>还要放一个 <b>Fabric API</b>（<code>fabric-api-0.92.12+1.20.1.jar</code>），没有这个 mod 跑不起来
+</div>
+<div class="step">
+  <span class="step-num">4</span>启动游戏，进入世界
+</div>
+
+<h2>🎮 游戏内操作速查</h2>
+
+<table>
+  <tr><th>操作</th><th>方式</th></tr>
+  <tr><td>拿配置魔杖</td><td><code>/give @s bunkerconsole:configurator</code></td></tr>
+  <tr><td>拿光源方块</td><td><code>/give @s bunkerconsole:glow_block</code></td></tr>
+  <tr><td>打开控制台</td><td>按 <kbd>K</kbd> 键</td></tr>
+  <tr><td>配置展示框</td><td>手持魔杖 → 右键展示框 → 输入物品 ID</td></tr>
+  <tr><td>设土豆箱</td><td>手持魔杖 → 右键箱子方块</td></tr>
+  <tr><td>设发射器（自动装填）</td><td>手持魔杖 → 右键发射器方块</td></tr>
+  <tr><td>设红石信号位置</td><td>手持魔杖 → 右键其他方块</td></tr>
+  <tr><td>设选区（备份范围）</td><td>K → 进入选区模式 → 魔杖右键两个对角</td></tr>
+  <tr><td>设出生点</td><td>站在位置上 → <kbd>K</kbd> → 点「设为当前位置」</td></tr>
+  <tr><td>手动触发重置</td><td><code>/bunker reset</code></td></tr>
+  <tr><td>固化模板（备份选区）</td><td><kbd>K</kbd> → 点「固化模板」</td></tr>
+  <tr><td>查看当前状态</td><td><code>/bunker status</code></td></tr>
+  <tr><td>调试信息</td><td><code>/bunker debug</code></td></tr>
+  <tr><td>改一天时长</td><td><code>/bunker setTimer 3000</code>（单位：刻，20刻=1秒）</td></tr>
+</table>
+
+<h2>🗺️ 设置备份选区</h2>
+
+<div class="step">
+  <span class="step-num">1</span>先把生态圈/场景建好
+</div>
+<div class="step">
+  <span class="step-num">2</span>按 <kbd>K</kbd> 打开控制台，点「<b>进入选区模式（魔杖右键两个角）</b>」
+</div>
+<div class="step">
+  <span class="step-num">3</span>拿魔杖：<code>/give @s bunkerconsole:configurator</code>
+</div>
+<div class="step">
+  <span class="step-num">4</span>右键你要备份区域的<b>第一个角</b>（聊天栏提示"角点1已设置"）
+</div>
+<div class="step">
+  <span class="step-num">5</span>右键<b>对角点</b>（自动保存选区范围，提示选区坐标）
+</div>
+<div class="step">
+  <span class="step-num">6</span>再按 <kbd>K</kbd> → 点「<b>固化模板（备份当前场景）</b>」
+</div>
+
+<div class="tip">
+  💡 v1.6.1 起改用 Java API 直接复制方块，不再依赖 clone/fill 命令，100% 可靠。
+</div>
+
+<h2>🔧 配置展示框</h2>
+
+<div class="step">
+  <span class="step-num">1</span>拿魔杖：<code>/give @s bunkerconsole:configurator</code>
+</div>
+<div class="step">
+  <span class="step-num">2</span>手持魔杖，对着后墙上的展示框 <b>右键</b>
+</div>
+<div class="step">
+  <span class="step-num">3</span>弹出输入框，输入物品 ID，例如：<br>
+  <pre><code>minecraft:wheat
+minecraft:iron_ingot
+minecraft:diamond</code></pre>
+</div>
+<div class="step">
+  <span class="step-num">4</span>点「保存配置」，自动写入配置文件
+</div>
+
+<h2>📦 土豆箱跨轮回储物</h2>
+
+<div class="step">
+  <span class="step-num">1</span>拿魔杖，在地图中心附近放一个普通箱子
+</div>
+<div class="step">
+  <span class="step-num">2</span>手持魔杖，对着箱子方块 <b>右键</b>
+</div>
+<div class="step">
+  <span class="step-num">3</span>聊天栏提示「土豆箱已设置: x,y,z」
+</div>
+
+<div class="tip">
+  💡 以后每次重置，这个箱子里的东西都会自动备份并恢复，不会被清空。
+</div>
+
+<h2>🧨 发射器自动装填</h2>
+
+<div class="new">
+  ✨ <b>新功能 v1.7.0</b> — reset 后自动往发射器填烟花火箭+火药，自动清掉落物
+</div>
+
+<div class="step">
+  <span class="step-num">1</span>拿魔杖，对着你那个发射器方块 <b>右键</b>
+</div>
+<div class="step">
+  <span class="step-num">2</span>聊天栏提示「自动装填发射器已设置: x,y,z」
+</div>
+<div class="step">
+  <span class="step-num">3</span>以后每次 reset 后，发射器自动清空并填入：
+  <ul style="margin:8px 0 0 20px">
+    <li>第1格：烟花火箭 ×1</li>
+    <li>第2格：火药 ×1</li>
+  </ul>
+</div>
+
+<div class="tip">
+  💡 同时 reset 会自动清除选区范围内所有掉落物，解决发射器/箱子内容物变成掉落物的问题。
+</div>
+
+<h2>📡 红石信号位置</h2>
+
+<div class="new">
+  ✨ <b>新功能 v1.5.0</b> — 魔杖右键任意方块设置红石块生成位置
+</div>
+
+<div class="step">
+  <span class="step-num">1</span>在你想要放红石块的位置，用魔杖右键那个方块
+</div>
+<div class="step">
+  <span class="step-num">2</span>聊天栏提示「红石信号位置已设置: x,y,z」
+</div>
+<div class="step">
+  <span class="step-num">3</span>手动把那个位置的方块拆掉
+</div>
+<div class="step">
+  <span class="step-num">4</span>所有展示框物品凑齐后，mod 自动在这个位置生成红石块
+</div>
+
+<h2>⏱️ 头顶倒计时</h2>
+
+<div class="new">
+  ✨ <b>新功能 v1.6.0</b> — 屏幕上方实时显示剩余时间
+</div>
+
+<p>游戏内屏幕上方（actionbar 位置）每秒显示：</p>
+<ul style="margin:10px 0 10px 20px">
+  <li>超过 1 分钟：<code>第1天 | 剩余 4分32秒</code>（绿色）</li>
+  <li>10~60 秒：<code>第1天 | 剩余 45秒</code>（黄色）</li>
+  <li>10 秒以内：<code>第1天 | 剩余 8秒</code>（红色，提醒快重置了）</li>
+</ul>
+
+<h2>⚙️ 配置文件位置</h2>
+
+<p>路径：<code>.minecraft/config/bunkerconsole.json</code></p>
+
+<pre><code>{
+  "frames": [
+    {"x": -8, "y": 67, "z": 7, "item": "minecraft:wheat"},
+    {"x": -4, "y": 67, "z": 7, "item": "minecraft:coal"}
+  ],
+  "spawn": {"x": 0, "y": 66, "z": 0},
+  "redstoneSignal": {"x": 14, "y": 66, "z": 10},
+  "potatoChest": {"x": 0, "y": 65, "z": 5},
+  "dispenserPos": {"x": 0, "y": 65, "z": 0},
+  "corner1": {"x": -48, "y": 34, "z": -48},
+  "corner2": {"x": 48, "y": 100, "z": 48},
+  "dayTicks": 6000
+}</code></pre>
+
+<table>
+  <tr><th>字段</th><th>说明</th><th>设置方式</th></tr>
+  <tr><td><code>frames</code></td><td>展示框列表（位置+绑定物品）</td><td>魔杖右键展示框</td></tr>
+  <tr><td><code>spawn</code></td><td>重置后玩家出生点</td><td>K → 设为当前位置</td></tr>
+  <tr><td><code>redstoneSignal</code></td><td>任务完成后红石块位置</td><td>魔杖右键任意方块</td></tr>
+  <tr><td><code>potatoChest</code></td><td>跨轮回储物箱位置</td><td>魔杖右键箱子</td></tr>
+  <tr><td><code>dispenserPos</code></td><td>自动装填发射器位置</td><td>魔杖右键发射器</td></tr>
+  <tr><td><code>corner1</code> / <code>corner2</code></td><td>备份选区两个对角点</td><td>K → 选区模式 → 魔杖右键</td></tr>
+  <tr><td><code>dayTicks</code></td><td>一天长度（刻，20刻=1秒）</td><td><code>/bunker setTimer 3000</code></td></tr>
+</table>
+
+<h2>✨ 已实现功能</h2>
+
+<div class="feature-grid">
+  <div class="feature-card">
+    <div class="icon">🔄</div>
+    <h4>每日重置循环</h4>
+    <p>倒计时结束 → Java API清空选区 → 从模板区复制回来 → 传送回出生点 → 天数+1</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🖼️</div>
+    <h4>展示框物品检测</h4>
+    <p>魔杖右键展示框，输入物品 ID 即可绑定</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">💡</div>
+    <h4>红石信号</h4>
+    <p>所有展示框物品凑齐后，魔杖右键设置的位置自动生成红石块</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">⏱️</div>
+    <h4>头顶倒计时</h4>
+    <p>屏幕上方实时显示剩余时间，最后10秒红色警告</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🧰</div>
+    <h4>土豆箱储物</h4>
+    <p>魔杖右键箱子设置，reset 自动备份恢复内容物</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🧨</div>
+    <h4>发射器自动装填</h4>
+    <p>魔杖右键发射器设置，reset 后自动填烟花火箭+火药</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🪧</div>
+    <h4>告示牌内容恢复</h4>
+    <p>固化时自动备份告示牌文字，reset 后自动写回</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">⚡</div>
+    <h4>性能优化</h4>
+    <p>展示框检测降为每0.5秒一次，游戏更流畅</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">💡</div>
+    <h4>超高亮度光源方块</h4>
+    <p>自定义光源方块，亮度20（游戏满亮度等级），放置后提供最强光照</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🗑️</div>
+    <h4>自动清掉落物</h4>
+    <p>reset 后自动清除选区范围内所有地面掉落物品</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">📐</div>
+    <h4>魔杖选区</h4>
+    <p>K进入选区模式，魔杖右键两个对角自动确定备份范围</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🖥️</div>
+    <h4>GUI 控制台</h4>
+    <p>按 K 打开面板，一键重置/固化/选区/设出生点</p>
+  </div>
+</div>
+
+<h2>⚠️ 常见问题</h2>
+
+<div class="warn">
+  <b>Q: 游戏启动崩溃？</b><br>
+  A: 检查有没有装 Fabric API。这个 mod 依赖 Fabric API，没有必崩。
+</div>
+
+<div class="warn">
+  <b>Q: 魔杖右键展示框没反应？</b><br>
+  A: 确认你手持的是 <code>bunkerconsole:configurator</code>，右键展示框实体（不是方块）。<br>
+  右键箱子 = 设土豆箱；右键发射器 = 设自动装填发射器；右键其他方块 = 设红石信号位置。
+</div>
+
+<div class="tip">
+  <b>Q: 怎么改一天的时长？</b><br>
+  A: 用命令 <code>/bunker setTimer 3000</code>，单位是刻（20刻=1秒）。3000=2.5分钟，6000=5分钟。
+</div>
+
+<div class="tip">
+  <b>Q: reset 后场景不对？</b><br>
+  A: 先跑 <code>/bunker debug</code> 看活动区和模板区 corner1 位置的方块。如果模板区是空气，说明你固化模板时场景是空的——先建好场景，再进选区模式圈范围，最后点「固化模板」。
+</div>
+
+<div class="tip">
+  <b>Q: reset 后发射器里的东西变成掉落物了？</b><br>
+  A: v1.7.0 起会自动清掉落物，并自动往魔杖设置过的发射器里填烟花火箭+火药。
+</div>
+
+<div class="tip">
+  <b>Q: 选区选错了怎么办？</b><br>
+  A: 按 K → 点「进入选区模式」重新圈两个角就行，会自动覆盖旧选区。
+</div>
+
+</body>
+</html>
