@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>37号避难所 · Bunker Console v2.4.1 使用指南</title>
+<title>37号避难所 · Bunker Console v2.5.0 使用指南</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -154,9 +154,10 @@
     <span class="badge">土豆箱储物</span>
     <span class="badge">发射器自动装填</span>
     <span class="badge">头顶倒计时</span>
-    <span class="badge">多维度传送门</span>
+    <span class="badge">IP 透视传送门</span>
+    <span class="badge">动态关卡维度</span>
   </div>
-  <div class="version-tag">v2.4.1</div>
+  <div class="version-tag">v2.5.0</div>
 </div>
 
 <h2>📦 安装步骤</h2>
@@ -165,13 +166,20 @@
   <span class="step-num">1</span>确认你装了 <b>Fabric Loader 0.19.5+</b>（1.20.1）
 </div>
 <div class="step">
-  <span class="step-num">2</span>把 <code>bunkerconsole-2.4.1.jar</code> 放进 <code>.minecraft/mods/</code> 文件夹
+  <span class="step-num">2</span>放一个 <b>Fabric API</b>（<code>fabric-api-0.92.12+1.20.1.jar</code>），没有这个 mod 跑不起来
 </div>
 <div class="step">
-  <span class="step-num">3</span>还要放一个 <b>Fabric API</b>（<code>fabric-api-0.92.12+1.20.1.jar</code>），没有这个 mod 跑不起来
+  <span class="step-num">3</span>放前置 mod <b>Immersive Portals（IP）5.2.0-mc1.20.1</b>。透视门、跨维无缝传送、动态建维度都依赖它；<b>客户端和服务端都必须安装</b>。可在 Modrinth 搜 <code>Immersive Portals</code>，选 1.20.1 对应版本下载
 </div>
 <div class="step">
-  <span class="step-num">4</span>启动游戏，进入世界
+  <span class="step-num">4</span>把 <code>bunkerconsole-2.5.0.jar</code> 放进 <code>.minecraft/mods/</code> 文件夹
+</div>
+<div class="step">
+  <span class="step-num">5</span>启动游戏，进入世界
+</div>
+
+<div class="warn">
+  <b>缺少 IP 前置会直接拒绝加载本 mod。</b>传送门透视、走进无感跨维、游戏内新建关卡维度这三项能力由 IP 提供，本 mod 只负责建门、绑定与维度编排。
 </div>
 
 <h2>🎮 游戏内操作速查</h2>
@@ -182,7 +190,8 @@
   <tr><td>拿光源方块</td><td><code>/give @s bunkerconsole:glow_block</code></td></tr>
   <tr><td>拿传送门方块</td><td><code>/give @s bunkerconsole:portal_block</code></td></tr>
   <tr><td>绑定两扇传送门</td><td>手持魔杖 → 右键第一扇门 → 再右键目标维度的第二扇门</td></tr>
-  <tr><td>跨维度传送</td><td>走进已绑定的传送门方块（自动传送，带短暂防横跳冷却）</td></tr>
+  <tr><td>跨维度传送</td><td>走进已绑定的传送门，IP 负责隔门透视与无缝跨维（无加载屏）</td></tr>
+  <tr><td>新建关卡维度</td><td><code>/bunker createlevel level4</code>（复用主世界地形预设）</td></tr>
   <tr><td>查看关卡与绑定</td><td><code>/bunker levels</code></td></tr>
   <tr><td>打开控制台</td><td>按 <kbd>K</kbd> 键</td></tr>
   <tr><td>配置展示框</td><td>手持魔杖 → 右键展示框 → 输入物品 ID</td></tr>
@@ -300,42 +309,66 @@ minecraft:diamond</code></pre>
   <span class="step-num">4</span>所有展示框物品凑齐后，mod 自动在这个位置生成红石块
 </div>
 
-<h2>🌀 多维度传送门</h2>
+<h2>🌀 透视传送门与关卡维度（接入 Immersive Portals）</h2>
 
 <div class="new">
-  ✨ <b>v2.4.1</b> — 走进传送门自动跨维传送（带防横跳冷却）；预留两个静态关卡维度；<code>/bunker levels</code> 查看关卡与绑定。
+  ✨ <b>v2.5.0</b> — 传送门改为 IP 透视门：站在门前能直接看到对面维度的实时画面；走进门完全无感跨维，无加载屏；支持在游戏内动态新建关卡维度。
+</div>
+
+<h3>三种能力</h3>
+<div class="feature-grid">
+  <div class="feature-card">
+    <div class="icon">👁️</div>
+    <h4>隔门透视</h4>
+    <p>IP 门实时渲染对面维度视角，站在门前即可看到门后场景，无需进门。</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🚶</div>
+    <h4>无感穿越</h4>
+    <p>走进门即完成跨维度传送，不弹原版维度切换加载屏，双向门自动配对。</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🌍</div>
+    <h4>动态建维</h4>
+    <p>游戏内用命令新建关卡维度，地形/生物群系预设与主世界一致，建好即可绑门。</p>
+  </div>
 </div>
 
 <h3>预留关卡维度</h3>
-<p>mod 内置两个预留静态关卡维度 <code>bunkerconsole:level2</code>、<code>bunkerconsole:level3</code>，世界预设与主世界相同（overworld 地形/生物群系预设）。这些维度为静态关卡，<b>不参与每日重置循环</b>；第一关主世界 <code>minecraft:overworld</code> 沿用原有重置逻辑。传送门可绑定到任意一个预留关卡。</p>
+<p>mod 内置两个预留静态关卡维度 <code>bunkerconsole:level2</code>、<code>bunkerconsole:level3</code>，世界预设与主世界相同（overworld 地形/生物群系预设）。这些维度为静态关卡，<b>不参与每日重置循环</b>；第一关主世界 <code>minecraft:overworld</code> 沿用原有重置逻辑。传送门可绑定到任意一个预留关卡或新建维度。</p>
 
 <h3>放置与绑定传送门</h3>
 <div class="step">
   <span class="step-num">1</span>拿传送门方块：<code>/give @s bunkerconsole:portal_block</code>，在主世界放一扇门
 </div>
 <div class="step">
-  <span class="step-num">2</span>到目标预留关卡（level2 / level3）再放一扇门
+  <span class="step-num">2</span>到目标关卡（level2 / level3 或新建维度）再放一扇门
 </div>
 <div class="step">
   <span class="step-num">3</span>手持配置魔杖，右键<b>第一扇门</b>，聊天栏提示「传送门 A 已记录」
 </div>
 <div class="step">
-  <span class="step-num">4</span>再右键<b>目标维度的第二扇门</b>，提示「传送门已双向绑定」，两扇门建立配对
+  <span class="step-num">4</span>再右键<b>目标维度的第二扇门</b>，提示「传送门已双向绑定」，两扇门建立配对，IP 透视门随即生成
 </div>
 <div class="step">
-  <span class="step-num">5</span>之后<b>走进</b>任意一扇已绑定的门，即自动传送到配对门所在维度与坐标（1.5 秒冷却，防止来回横跳）
+  <span class="step-num">5</span>站在门前即可看到对面视角；<b>走进</b>任意一扇已绑定的门，即无缝传送到配对门所在维度与坐标
+</div>
+
+<h3>动态新建关卡维度</h3>
+<div class="step">
+  <span class="step-num">1</span>在聊天栏输入命令（ID 可带命名空间，不带则默认 <code>bunkerconsole:</code>）：
+  <pre><code>/bunker createlevel level4
+/bunker createlevel bunkerconsole:level5</code></pre>
+  </div>
+  <div class="step">
+  <span class="step-num">2</span>新维度复用主世界的维度类型与地形生成器，生成后即可在里面放门、用魔杖绑定
+</div>
+<div class="step">
+  <span class="step-num">3</span>输入 <code>/bunker levels</code> 查看全部关卡维度与当前传送门绑定列表
 </div>
 
 <div class="tip">
-  💡 绑定关系自动写入配置文件 <code>portalLinks</code>，重启世界后保留。输入 <code>/bunker levels</code> 可查看全部预留关卡维度与当前传送门绑定列表。
-</div>
-
-<div class="warn">
-  <b>当前版本限制（纯自研，未挂前置渲染 mod）：</b><br>
-  ① 门后<b>看不到另一维度的实时画面</b>，半透明门只能看穿到本侧背景；<br>
-  ② 跨维传送仍会走原版维度切换，做不到完全无加载屏的无感穿越；<br>
-  ③ 关卡维度为数据包预定义预留，不能在游戏内凭空新建世界。<br>
-  要实现「隔门看到对面视角 + 走进完全无感 + 运行时动态建关卡」，需要接入 <b>Immersive Portals</b> 前置 mod（客户端+服务端均需安装），该集成待确认后再做。
+  💡 绑定关系自动写入配置文件 <code>portalLinks</code>，重启世界后保留；服务端启动时会按配置自动重建所有 IP 透视门。
 </div>
 
 <h2>⏱️ 头顶倒计时</h2>
@@ -450,16 +483,21 @@ minecraft:diamond</code></pre>
   </div>
   <div class="feature-card">
     <div class="icon">🌀</div>
-    <h4>多维度传送门</h4>
-    <p>预留静态关卡维度，魔杖双向绑定两扇门，走进门自动跨维传送，绑定关系持久化</p>
+    <h4>IP 透视传送门</h4>
+    <p>接入 Immersive Portals，魔杖双向绑定，隔门实时透视对面，走进无缝跨维，绑定关系持久化</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🌍</div>
+    <h4>动态关卡维度</h4>
+    <p><code>/bunker createlevel</code> 游戏内新建关卡维度，复用主世界地形预设，可直接绑门</p>
   </div>
 </div>
 
 <h2>⚠️ 常见问题</h2>
 
 <div class="warn">
-  <b>Q: 游戏启动崩溃？</b><br>
-  A: 检查有没有装 Fabric API。这个 mod 依赖 Fabric API，没有必崩。
+  <b>Q: 游戏启动崩溃 / mod 被拒绝加载？</b><br>
+  A: 依次检查：① 装了 Fabric API；② 装了 <b>Immersive Portals 5.2.0-mc1.20.1</b>（客户端+服务端都要）；③ Fabric Loader 与 MC 版本为 1.20.1。本 mod 把 IP 列为强制前置，缺 IP 会直接拒绝加载。
 </div>
 
 <div class="warn">
