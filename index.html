@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>37号避难所 · Bunker Console v2.3.2 使用指南</title>
+<title>37号避难所 · Bunker Console v2.4.0 使用指南</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -154,8 +154,9 @@
     <span class="badge">土豆箱储物</span>
     <span class="badge">发射器自动装填</span>
     <span class="badge">头顶倒计时</span>
+    <span class="badge">多维度传送门</span>
   </div>
-  <div class="version-tag">v2.3.2</div>
+  <div class="version-tag">v2.4.0</div>
 </div>
 
 <h2>📦 安装步骤</h2>
@@ -164,7 +165,7 @@
   <span class="step-num">1</span>确认你装了 <b>Fabric Loader 0.19.5+</b>（1.20.1）
 </div>
 <div class="step">
-  <span class="step-num">2</span>把 <code>bunkerconsole-2.3.2.jar</code> 放进 <code>.minecraft/mods/</code> 文件夹
+  <span class="step-num">2</span>把 <code>bunkerconsole-2.4.0.jar</code> 放进 <code>.minecraft/mods/</code> 文件夹
 </div>
 <div class="step">
   <span class="step-num">3</span>还要放一个 <b>Fabric API</b>（<code>fabric-api-0.92.12+1.20.1.jar</code>），没有这个 mod 跑不起来
@@ -179,6 +180,9 @@
   <tr><th>操作</th><th>方式</th></tr>
   <tr><td>拿配置魔杖</td><td><code>/give @s bunkerconsole:configurator</code></td></tr>
   <tr><td>拿光源方块</td><td><code>/give @s bunkerconsole:glow_block</code></td></tr>
+  <tr><td>拿传送门方块</td><td><code>/give @s bunkerconsole:portal_block</code></td></tr>
+  <tr><td>绑定两扇传送门</td><td>手持魔杖 → 右键第一扇门 → 再右键目标维度的第二扇门</td></tr>
+  <tr><td>跨维度传送</td><td>右键已绑定的传送门方块</td></tr>
   <tr><td>打开控制台</td><td>按 <kbd>K</kbd> 键</td></tr>
   <tr><td>配置展示框</td><td>手持魔杖 → 右键展示框 → 输入物品 ID</td></tr>
   <tr><td>设土豆箱</td><td>手持魔杖 → 右键箱子方块</td></tr>
@@ -295,6 +299,40 @@ minecraft:diamond</code></pre>
   <span class="step-num">4</span>所有展示框物品凑齐后，mod 自动在这个位置生成红石块
 </div>
 
+<h2>🌀 多维度传送门</h2>
+
+<div class="new">
+  ✨ <b>新功能 v2.4.0</b> — 每关可对应一个独立维度，传送门方块用魔杖双向绑定，右键跨维度传送。
+</div>
+
+<h3>新增维度</h3>
+<p>mod 内置一个静态关卡维度 <code>bunkerconsole:level2</code>，世界预设与主世界相同（overworld 地形/生物群系预设）。该维度为静态关卡，<b>不参与每日重置循环</b>；第一关主世界沿用原有重置逻辑。</p>
+
+<h3>放置与绑定传送门</h3>
+<div class="step">
+  <span class="step-num">1</span>拿传送门方块：<code>/give @s bunkerconsole:portal_block</code>，在主世界放一扇门
+</div>
+<div class="step">
+  <span class="step-num">2</span>到目标维度（level2）再放一扇门
+</div>
+<div class="step">
+  <span class="step-num">3</span>手持配置魔杖，右键<b>第一扇门</b>，聊天栏提示「传送门 A 已记录」
+</div>
+<div class="step">
+  <span class="step-num">4</span>再右键<b>目标维度的第二扇门</b>，提示「传送门已双向绑定」，两扇门建立配对
+</div>
+<div class="step">
+  <span class="step-num">5</span>之后右键任意一扇已绑定的门，即可传送到配对门所在维度与坐标
+</div>
+
+<div class="tip">
+  💡 绑定关系自动写入配置文件 <code>portalLinks</code>，重启世界后保留。
+</div>
+
+<div class="warn">
+  <b>关于门后透视：</b>传送门是半透明实体方块，可以看穿到本侧背景。纯服务端 mod 无法把另一维度的实时画面渲染到门后；真正的沉浸式跨维透视（隔门看到对面世界）需要独立客户端渲染管线（如 Immersive Portals 级方案），本版本暂不提供。
+</div>
+
 <h2>⏱️ 头顶倒计时</h2>
 
 <div class="new">
@@ -323,7 +361,11 @@ minecraft:diamond</code></pre>
   "dispenserPos": {"x": 0, "y": 65, "z": 0},
   "corner1": {"x": -48, "y": 34, "z": -48},
   "corner2": {"x": 48, "y": 100, "z": 48},
-  "dayTicks": 6000
+  "dayTicks": 6000,
+  "portalLinks": [
+    {"dimA": "minecraft:overworld", "ax": 0, "ay": 66, "az": 0,
+     "dimB": "bunkerconsole:level2", "bx": 100, "by": 64, "bz": 100}
+  ]
 }</code></pre>
 
 <table>
@@ -335,6 +377,7 @@ minecraft:diamond</code></pre>
   <tr><td><code>dispenserPos</code></td><td>自动装填发射器位置</td><td>魔杖右键发射器</td></tr>
   <tr><td><code>corner1</code> / <code>corner2</code></td><td>备份选区两个对角点</td><td>K → 选区模式 → 魔杖右键</td></tr>
   <tr><td><code>dayTicks</code></td><td>一天长度（刻，20刻=1秒）</td><td><code>/bunker setTimer 3000</code></td></tr>
+  <tr><td><code>portalLinks</code></td><td>传送门双向绑定（两端维度ID+坐标）</td><td>魔杖右键两扇门</td></tr>
 </table>
 
 <h2>✨ 已实现功能</h2>
@@ -383,7 +426,7 @@ minecraft:diamond</code></pre>
   <div class="feature-card">
     <div class="icon">💡</div>
     <h4>超高亮度光源方块</h4>
-    <p>自定义光源方块，亮度20（游戏满亮度等级），放置后提供最强光照</p>
+    <p>自定义光源方块，亮度等级拉满（游戏光照上限15），放置后提供最强光照</p>
   </div>
   <div class="feature-card">
     <div class="icon">🗑️</div>
@@ -399,6 +442,11 @@ minecraft:diamond</code></pre>
     <div class="icon">🖥️</div>
     <h4>GUI 控制台</h4>
     <p>按 K 打开面板，一键重置/固化/选区/设出生点</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🌀</div>
+    <h4>多维度传送门</h4>
+    <p>独立关卡维度，魔杖双向绑定两扇门，右键跨维度传送，绑定关系持久化</p>
   </div>
 </div>
 
